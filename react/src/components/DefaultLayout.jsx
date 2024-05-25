@@ -4,18 +4,29 @@ import { useEffect } from "react";
 import axiosClient from "../axios-client";
 
 export default function DefaultLayout() {
-    const {user,token,setUser} = useStateContext();
+    const {user,token,setUser,setToken} = useStateContext();
 
     if(!token){
         return <Navigate to="/login" />
     }
 
+    // Get User Data
     useEffect(() => {
         axiosClient.get('/user')
         .then(({data}) => {
             setUser(data)
         })
     })
+
+    // Logout User
+    const onLogout = (e) => {
+        e.preventDefault();
+        axiosClient.post('logout')
+        .then(() => {
+            setUser({});
+            setToken(null);
+        })
+    }
 
     return (
         <div id="defaultLayout">
@@ -28,7 +39,7 @@ export default function DefaultLayout() {
                     <div>Header</div>
                     <div>
                         {user.name}
-                        <a href="#" className="btn-logout">Logout</a>
+                        <a href="#" onClick={onLogout} className="btn-logout">Logout</a>
                     </div>
                 </header>
                 <main>
