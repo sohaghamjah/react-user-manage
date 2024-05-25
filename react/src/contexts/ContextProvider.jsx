@@ -6,7 +6,6 @@ const StateContext = createContext({
     setUser: () => {},
     setToken: () => {},
 })
-
 export const ContextProvider = ({children}) => {
 
     const [user, setUser] = useState({
