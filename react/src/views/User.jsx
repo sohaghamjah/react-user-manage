@@ -6,6 +6,7 @@ function User() {
   const [users, setUser] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  // Get User
   useEffect(() => {
     getUsers();
   }, []);
@@ -19,6 +20,19 @@ function User() {
     })
     .catch(() => {
       setLoading(false);
+    })
+  }
+
+  // User Delete
+
+  const onDelete = (data) => {
+    if(!window.confirm("Are you sure to delete this user?")){
+      return;
+    }
+
+    axiosClient.delete(`/users/${data.id}`)
+    .then(() => {
+      getUsers();
     })
   }
 
@@ -39,20 +53,29 @@ function User() {
                   <th>Action</th>
                 </tr>
               </thead>
-              <tbody>
-                {users.map((data) => 
-                  <tr key={data.id}>
-                    <td>{data.id}</td>
-                    <td>{data.name}</td>
-                    <td>{data.email}</td>
-                    <td>{data.created_at}</td>
-                    <td>
-                      <Link className="btn-edit" style={{ marginRight:"5px" }} to={'/users/'+data.id}>Edit</Link>
-                      <button className="btn-delete">Delete</button>
-                    </td>
+              {loading && 
+                <tbody>
+                  <tr>
+                    <td colSpan={5} className="text-center">Loading...</td>
                   </tr>
-                )}
-              </tbody>
+                </tbody>
+              }
+              {!loading && 
+                <tbody>
+                  {users.map((data) => 
+                    <tr key={data.id}>
+                      <td>{data.id}</td>
+                      <td>{data.name}</td>
+                      <td>{data.email}</td>
+                      <td>{data.created_at}</td>
+                      <td>
+                        <Link className="btn-edit" style={{ marginRight:"5px" }} to={'/users/'+data.id}>Edit</Link>
+                        <button onClick={ev => onDelete(data)} className="btn-delete">Delete</button>
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              }
             </table>
           </div>
       </div>
