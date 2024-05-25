@@ -17,7 +17,7 @@ class AuthController extends Controller
         if(!Auth::attempt($validated)){
             return response([
                 'message' => 'Invalid Email Or Password'
-            ]);
+            ], 422);
         }
 
         $user = Auth::user();
