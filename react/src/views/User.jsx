@@ -66,7 +66,7 @@ function User() {
                     <tr key={data.id}>
                       <td>{data.id}</td>
                       <td>{data.name}</td>
-                      <td>{data.email}</td>
+                      <td>{data.email}</td> 
                       <td>{data.created_at}</td>
                       <td>
                         <Link className="btn-edit" style={{ marginRight:"5px" }} to={'/users/'+data.id}>Edit</Link>
